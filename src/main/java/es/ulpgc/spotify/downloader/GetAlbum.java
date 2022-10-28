@@ -21,28 +21,8 @@ public class GetAlbum {
         this.total = total;
     }
 
-    public String getHref() {
-        return href;
-    }
-
     public ArrayList<Album> getItems() {
         return items;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public String getNext() {
-        return next;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public String getPrevious() {
-        return previous;
     }
 
     public Integer getTotal() {
