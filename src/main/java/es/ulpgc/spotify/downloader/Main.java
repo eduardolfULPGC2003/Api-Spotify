@@ -9,13 +9,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         SpotifyAccessor accessor = new SpotifyAccessor();
-        String json = accessor.get("/artists/4LbuSjHhhAddvN44qXpRJo/albums?include_groups=album", Collections.emptyMap());
+        String json = accessor.get("/albums/0TYKKzAVX7gjUYtovNTFNE/tracks", Collections.emptyMap());
         System.out.println(json);
-        GetAlbum prueba = new Gson().fromJson(json, GetAlbum.class);
-        ArrayList<Album> albums = prueba.getItems();
-        for (Album album : albums) {
-            System.out.println(album.getId());
-        }
     }
 
     //TO DO
@@ -27,4 +22,12 @@ public class Main {
     //String busqueda =  "/albums/" + prueba.substring(prueba.indexOf("album/")+6) + "/tracks";
     //String json = accessor.get(busqueda, Collections.emptyMap());
     //System.out.println(json);
+
+    //Se consigue también con el id del album
+
+    //GetAlbum prueba = new Gson().fromJson(json, GetAlbum.class);
+    //ArrayList<Album> albums = prueba.getItems();
+    //for (Album album : albums) {
+    //System.out.println(album.getId());
+    //}
 }
