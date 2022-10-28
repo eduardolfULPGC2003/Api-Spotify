@@ -6,7 +6,7 @@ import java.util.Map;
 public class Album {
     private final String albumGroup;
     private final String albumType;
-    private final ArrayList<Artist> artistas;
+    private final ArrayList<Artist> artists;
     private final ArrayList<String> availableMarkets;
     private final Map<String, String> externalUrls;
     private final String href;
@@ -19,10 +19,10 @@ public class Album {
     private final String type;
     private final String uri;
 
-    public Album(String albumGroup, String albumType, ArrayList<Artist> artistas, ArrayList<String> availableMarkets, Map<String, String> externalUrls, String href, String id, ArrayList<Image> images, String name, String releaseDate, String releaseDatePrecision, Integer totalTracks, String type, String uri) {
+    public Album(String albumGroup, String albumType, ArrayList<Artist> artists, ArrayList<String> availableMarkets, Map<String, String> externalUrls, String href, String id, ArrayList<Image> images, String name, String releaseDate, String releaseDatePrecision, Integer totalTracks, String type, String uri) {
         this.albumGroup = albumGroup;
         this.albumType = albumType;
-        this.artistas = artistas;
+        this.artists = artists;
         this.availableMarkets = availableMarkets;
         this.externalUrls = externalUrls;
         this.href = href;
@@ -44,8 +44,8 @@ public class Album {
         return albumType;
     }
 
-    public ArrayList<Artist> getArtistas() {
-        return artistas;
+    public ArrayList<Artist> getArtists() {
+        return artists;
     }
 
     public ArrayList<String> getAvailableMarkets() {
