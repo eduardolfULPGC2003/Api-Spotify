@@ -9,7 +9,6 @@ public class Main {
         String json = accessor.get("/albums/7LUMQHRWTTILN7yR6LJwHR/tracks", Collections.emptyMap());
         System.out.println(json);
         System.out.println("Hello");
-        System.out.println("Hello");
     }
 
     //TO DO
