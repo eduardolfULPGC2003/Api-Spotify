@@ -17,4 +17,8 @@ public class Main {
     //List<Album> getAlbums(artist)
     //List<Track> getTracks(artist),
 
+    //String prueba = "https://open.spotify.com/album/0TYKKzAVX7gjUYtovNTFNE";
+    //String busqueda =  "/albums/" + prueba.substring(prueba.indexOf("album/")+6) + "/tracks";
+    //String json = accessor.get(busqueda, Collections.emptyMap());
+    //System.out.println(json);
 }
