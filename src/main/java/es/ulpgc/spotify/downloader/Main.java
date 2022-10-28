@@ -1,12 +1,14 @@
 package es.ulpgc.spotify.downloader;
 
+import com.google.gson.Gson;
+
 import java.util.Collections;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         SpotifyAccessor accessor = new SpotifyAccessor();
-        String json = accessor.get("/albums/7LUMQHRWTTILN7yR6LJwHR/tracks", Collections.emptyMap());
+        String json = accessor.get("/artists/4LbuSjHhhAddvN44qXpRJo/albums?include_groups=album", Collections.emptyMap());
         System.out.println(json);
     }
 
