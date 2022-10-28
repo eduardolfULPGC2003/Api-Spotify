@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Artist {
-    private Map<String, String> externalUrls;
-    private Follower follower;
-    private ArrayList<String> genres;
-    private String  href;
-    private String id;
-    private ArrayList<Image> images;
-    private String name;
-    private Integer popularity;
-    private String type;
-    private String uri;
+    private final Map<String, String> externalUrls;
+    private final Follower follower;
+    private final ArrayList<String> genres;
+    private final String  href;
+    private final String id;
+    private final ArrayList<Image> images;
+    private final String name;
+    private final Integer popularity;
+    private final String type;
+    private final String uri;
 
     public Artist(Map<String, String> externalUrls, Follower follower, ArrayList<String> genres, String href, String id, ArrayList<Image> images, String name, Integer popularity, String type, String uri) {
         this.externalUrls = externalUrls;

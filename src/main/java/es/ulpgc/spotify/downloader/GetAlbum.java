@@ -3,13 +3,13 @@ package es.ulpgc.spotify.downloader;
 import java.util.ArrayList;
 
 public class GetAlbum {
-    private String href;
-    private ArrayList<Album> albums;
-    private Integer limit;
-    private String next;
-    private Integer offset;
-    private String previous;
-    private Integer total;
+    private final String href;
+    private final ArrayList<Album> albums;
+    private final Integer limit;
+    private final String next;
+    private final Integer offset;
+    private final String previous;
+    private final Integer total;
 
     public GetAlbum(String href, ArrayList<Album> albums, Integer limit, String next, Integer offset, String previous, Integer total) {
         this.href = href;
