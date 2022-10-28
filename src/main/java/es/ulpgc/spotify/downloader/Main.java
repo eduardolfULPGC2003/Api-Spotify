@@ -8,7 +8,6 @@ public class Main {
         SpotifyAccessor accessor = new SpotifyAccessor();
         String json = accessor.get("/albums/7LUMQHRWTTILN7yR6LJwHR/tracks", Collections.emptyMap());
         System.out.println(json);
-        System.out.println("Hello");
     }
 
     //TO DO
