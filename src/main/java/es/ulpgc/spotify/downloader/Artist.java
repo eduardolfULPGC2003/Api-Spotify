@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Artist {
     private final Map<String, String> externalUrls;
-    private final Follower follower;
+    private final Follower followers;
     private final ArrayList<String> genres;
     private final String  href;
     private final String id;
@@ -17,7 +17,7 @@ public class Artist {
 
     public Artist(Map<String, String> externalUrls, Follower follower, ArrayList<String> genres, String href, String id, ArrayList<Image> images, String name, Integer popularity, String type, String uri) {
         this.externalUrls = externalUrls;
-        this.follower = follower;
+        this.followers = follower;
         this.genres = genres;
         this.href = href;
         this.id = id;
@@ -33,7 +33,7 @@ public class Artist {
     }
 
     public Follower getFollower() {
-        return follower;
+        return followers;
     }
 
     public ArrayList<String> getGenres() {
@@ -67,24 +67,4 @@ public class Artist {
     public String getUri() {
         return uri;
     }
-
-    public class Follower{
-        private String href;
-        private Integer total;
-
-
-        public Follower(String href, Integer total) {
-            this.href = href;
-            this.total = total;
-        }
-
-        public String getHref() {
-            return href;
-        }
-
-        public Integer getTotal() {
-            return total;
-        }
-    }
-
 }
