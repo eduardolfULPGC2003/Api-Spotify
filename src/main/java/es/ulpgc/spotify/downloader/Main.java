@@ -15,11 +15,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ArrayList<String> urlArtists = new ArrayList<>();
-        //urlArtists.add("3oZa8Xs6IjlIUGLAhVyK4G");
+        //urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
         urlArtists.add("4LbuSjHhhAddvN44qXpRJo");
-        //urlArtists.add("5MmVJVhhYKQ86izuGHzJYA");
-        //urlArtists.add("47BNWfpngeFHYvBlPPyraM");
-        //urlArtists.add("7H55rcKCfwqkyDFH9wpKM6");
+        urlArtists.add("5MmVJVhhYKQ86izuGHzJYA");
+        urlArtists.add("47BNWfpngeFHYvBlPPyraM");
+        urlArtists.add("7H55rcKCfwqkyDFH9wpKM6");
         SpotifyAccessor accessor = new SpotifyAccessor();
         //System.out.println(json);
         String dbPath = "C:\\Users\\Eduardo\\IdeaProjects\\spotify_2\\spotify.db";
@@ -44,6 +44,16 @@ public class Main {
                     "ID TEXT NOT NULL, " +
                     "Uri TEXT" +
                     ")");
+            statement.execute("CREATE TABLE IF NOT EXISTS tracks (" +
+                    "TrackID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    //"AlbumID INTEGER NOT NULL, " +
+                    "Name TEXT NOT NULL, " +
+                    "TrackNumber INTEGER NOT NULL, " +
+                    "DurationMs INTEGER NOT NULL, " +
+                    "AvailableMarkets TEXT NOT NULL, " +
+                    "ID TEXT NOT NULL, " +
+                    "Uri TEXT" +
+                    ")");
             for (String urlArtist : urlArtists) {
                 String json = accessor.get("/artists/" + urlArtist, Collections.emptyMap());
                 Artist artist = new Gson().fromJson(json, Artist.class);
@@ -59,7 +69,6 @@ public class Main {
                 GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
                 ArrayList<Album> albums = getAlbum.getItems();
                 for (Album album : albums) {
-                    System.out.println(album.getUri());
                     statement.execute("INSERT INTO albums (Name,ReleaseDate,TotalTracks,AvailableMarkets,ID,Uri) VALUES ('" +
                             album.getName() + "'," +
                             "'" + album.getReleaseDate() + "'," +
@@ -68,6 +77,22 @@ public class Main {
                             "'" + album.getId() + "'," +
                             "'" + album.getUri() + "'" +
                             ")");
+                    String idAlbum = album.getId();
+                    String json3 = accessor.get("/albums/" + idAlbum + "/tracks", Collections.emptyMap());
+                    GetTrack getTrack = new Gson().fromJson(json3, GetTrack.class);
+                    ArrayList<Track> tracks = getTrack.getItems();
+                    for (Track track : tracks) {
+                        System.out.println(new Gson().toJson(track));
+                        statement.execute("INSERT INTO tracks (Name,TrackNumber,DurationMs,AvailableMarkets,ID,Uri) VALUES ('" +
+                                track.getName() + "'," +
+                                track.getTrackNumber() + "," +
+                                track.getDurationMs() + "," +
+                                "'" + track.getAvailableMarkets().toString() + "'," +
+                                "'" + track.getId() + "'," +
+                                "'" + track.getUri() + "'" +
+                                ")");
+                    }
+
                 }
             }
         } catch (SQLException e) {

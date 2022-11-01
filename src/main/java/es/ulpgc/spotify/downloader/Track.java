@@ -6,31 +6,31 @@ import java.util.Map;
 
 public class Track {
     private ArrayList<Artist> artists;
-    private ArrayList<String> availableMarkets;
-    private Integer discNumber;
-    private Integer durationMs;
+    private ArrayList<String> available_markets;
+    private Integer disc_number;
+    private Integer duration_ms;
     private boolean explicit;
-    private Map<String, String> external_Urls;
+    private Map<String, String> external_urls;
     private String id;
-    private boolean isLocal;
+    private boolean is_local;
     private String name;
-    private String previewUrl;
-    private Integer trackNumber;
+    private String preview_url;
+    private Integer track_number;
     private String type;
     private String uri;
 
     public Track(ArrayList<Artist> artists, ArrayList<String> availableMarkets, Integer discNumber, Integer durationMs, boolean explicit, Map<String, String> external_Urls, String id, boolean isLocal, String name, String previewUrl, Integer trackNumber, String type, String uri) {
         this.artists = artists;
-        this.availableMarkets = availableMarkets;
-        this.discNumber = discNumber;
-        this.durationMs = durationMs;
+        this.available_markets = availableMarkets;
+        this.disc_number = discNumber;
+        this.duration_ms = durationMs;
         this.explicit = explicit;
-        this.external_Urls = external_Urls;
+        this.external_urls = external_Urls;
         this.id = id;
-        this.isLocal = isLocal;
+        this.is_local = isLocal;
         this.name = name;
-        this.previewUrl = previewUrl;
-        this.trackNumber = trackNumber;
+        this.preview_url = previewUrl;
+        this.track_number = trackNumber;
         this.type = type;
         this.uri = uri;
     }
@@ -40,15 +40,15 @@ public class Track {
     }
 
     public ArrayList<String> getAvailableMarkets() {
-        return availableMarkets;
+        return available_markets;
     }
 
     public Integer getDiscNumber() {
-        return discNumber;
+        return disc_number;
     }
 
     public Integer getDurationMs() {
-        return durationMs;
+        return duration_ms;
     }
 
     public boolean isExplicit() {
@@ -56,7 +56,7 @@ public class Track {
     }
 
     public Map<String, String> getExternal_Urls() {
-        return external_Urls;
+        return external_urls;
     }
 
     public String getId() {
@@ -64,7 +64,7 @@ public class Track {
     }
 
     public boolean isLocal() {
-        return isLocal;
+        return is_local;
     }
 
     public String getName() {
@@ -72,11 +72,11 @@ public class Track {
     }
 
     public String getPreviewUrl() {
-        return previewUrl;
+        return preview_url;
     }
 
     public Integer getTrackNumber() {
-        return trackNumber;
+        return track_number;
     }
 
     public String getType() {
