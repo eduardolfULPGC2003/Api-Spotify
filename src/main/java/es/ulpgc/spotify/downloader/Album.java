@@ -4,44 +4,44 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Album {
-    private final String albumGroup;
-    private final String albumType;
+    private final String album_group;
+    private final String album_type;
     private final ArrayList<Artist> artists;
-    private final ArrayList<String> availableMarkets;
-    private final Map<String, String> externalUrls;
+    private final ArrayList<String> available_markets;
+    private final Map<String, String> external_urls;
     private final String href;
     private final String id;
     private final ArrayList<Image> images;
     private final String name;
-    private final String releaseDate;
-    private final String releaseDatePrecision;
-    private final Integer totalTracks;
+    private final String release_date;
+    private final String release_date_precision;
+    private final Integer total_tracks;
     private final String type;
     private final String uri;
 
     public Album(String albumGroup, String albumType, ArrayList<Artist> artists, ArrayList<String> availableMarkets, Map<String, String> externalUrls, String href, String id, ArrayList<Image> images, String name, String releaseDate, String releaseDatePrecision, Integer totalTracks, String type, String uri) {
-        this.albumGroup = albumGroup;
-        this.albumType = albumType;
+        this.album_group = albumGroup;
+        this.album_type = albumType;
         this.artists = artists;
-        this.availableMarkets = availableMarkets;
-        this.externalUrls = externalUrls;
+        this.available_markets = availableMarkets;
+        this.external_urls = externalUrls;
         this.href = href;
         this.id = id;
         this.images = images;
         this.name = name;
-        this.releaseDate = releaseDate;
-        this.releaseDatePrecision = releaseDatePrecision;
-        this.totalTracks = totalTracks;
+        this.release_date = releaseDate;
+        this.release_date_precision = releaseDatePrecision;
+        this.total_tracks = totalTracks;
         this.type = type;
         this.uri = uri;
     }
 
     public String getAlbumGroup() {
-        return albumGroup;
+        return album_group;
     }
 
     public String getAlbumType() {
-        return albumType;
+        return album_type;
     }
 
     public ArrayList<Artist> getArtists() {
@@ -49,11 +49,11 @@ public class Album {
     }
 
     public ArrayList<String> getAvailableMarkets() {
-        return availableMarkets;
+        return available_markets;
     }
 
     public Map<String, String> getExternalUrls() {
-        return externalUrls;
+        return external_urls;
     }
 
     public String getHref() {
@@ -73,15 +73,15 @@ public class Album {
     }
 
     public String getReleaseDate() {
-        return releaseDate;
+        return release_date;
     }
 
     public String getReleaseDatePrecision() {
-        return releaseDatePrecision;
+        return release_date_precision;
     }
 
     public Integer getTotalTracks() {
-        return totalTracks;
+        return total_tracks;
     }
 
     public String getType() {
