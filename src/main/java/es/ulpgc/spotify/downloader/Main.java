@@ -68,10 +68,11 @@ public class Main {
                     String json3 = accessor.get("/albums/" + idAlbum + "/tracks", Collections.emptyMap());
                     GetTrack getTrack = new Gson().fromJson(json3, GetTrack.class);
                     ArrayList<Track> tracks = getTrack.getItems();
+                    System.out.println("Hello world");
 
                     for (Track track : tracks) {
                         resultSet = statement.executeQuery("SELECT AlbumID FROM albums WHERE ID=\"" + album.getId() + "\"");
-                        //System.out.println(new Gson().toJson(track));
+                        System.out.println(new Gson().toJson(track));
                         Table.insertTrack(track, resultSet.getInt("AlbumID"),conn);
                     }
 
