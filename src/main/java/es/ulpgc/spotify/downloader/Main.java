@@ -1,11 +1,9 @@
 package es.ulpgc.spotify.downloader;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,10 +13,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ArrayList<String> urlArtists = new ArrayList<>();
-        //urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
+        urlArtists.add("3oZa8Xs6IjlIUGLAhVyK4G");
+        urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
         urlArtists.add("4LbuSjHhhAddvN44qXpRJo");
         urlArtists.add("5MmVJVhhYKQ86izuGHzJYA");
         urlArtists.add("47BNWfpngeFHYvBlPPyraM");
+        urlArtists.add("6zFYqv1mOsgBRQbae3JJ9e");
         urlArtists.add("7H55rcKCfwqkyDFH9wpKM6");
         SpotifyAccessor accessor = new SpotifyAccessor();
         //System.out.println(json);
@@ -36,7 +36,7 @@ public class Main {
                     ")");
             statement.execute("CREATE TABLE IF NOT EXISTS albums (" +
                     "AlbumID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    //"ArtistID INTEGER NOT NULL, " +
+                    "ArtistID INTEGER NOT NULL, " +
                     "Name TEXT NOT NULL, " +
                     "ReleaseDate TEXT NOT NULL, " +
                     "TotalTracks INTEGER NOT NULL, " +
@@ -46,7 +46,7 @@ public class Main {
                     ")");
             statement.execute("CREATE TABLE IF NOT EXISTS tracks (" +
                     "TrackID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    //"AlbumID INTEGER NOT NULL, " +
+                    "AlbumID INTEGER NOT NULL, " +
                     "Name TEXT NOT NULL, " +
                     "TrackNumber INTEGER NOT NULL, " +
                     "DurationMs INTEGER NOT NULL, " +
@@ -68,30 +68,64 @@ public class Main {
                 String json2 = accessor.get("/artists/" + urlArtist + "/albums?include_groups=album", Collections.emptyMap());
                 GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
                 ArrayList<Album> albums = getAlbum.getItems();
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO albums (ArtistID,Name,ReleaseDate,TotalTracks,AvailableMarkets,ID,Uri) " +
+                        "VALUES (?,?,?,?,?,?,?)");
                 for (Album album : albums) {
-                    statement.execute("INSERT INTO albums (Name,ReleaseDate,TotalTracks,AvailableMarkets,ID,Uri) VALUES ('" +
-                            album.getName() + "'," +
+                    System.out.println(new Gson().toJson(album));
+                    ResultSet resultSet = statement.executeQuery("SELECT ArtistID FROM artists WHERE ID='" + artist.getId() + "'");
+                    preparedStatement.setInt(1,resultSet.getInt("ArtistID"));
+                    preparedStatement.setString(2,album.getName());
+                    preparedStatement.setString(3,album.getReleaseDate());
+                    preparedStatement.setInt(4,album.getTotalTracks());
+                    preparedStatement.setString(5,album.getAvailableMarkets().toString());
+                    preparedStatement.setString(6,album.getId());
+                    preparedStatement.setString(7,album.getUri());
+                    preparedStatement.execute();
+                    //preparedStatement.clearParameters();
+                    /*
+                    String secuencia = "INSERT INTO albums (ArtistID,Name,ReleaseDate,TotalTracks,AvailableMarkets,ID,Uri) VALUES ("+
+                            resultSet.getInt("ArtistID") + "," +
+                            "\"" + album.getName() + "\"," +
                             "'" + album.getReleaseDate() + "'," +
                             album.getTotalTracks() + "," +
                             "'" + album.getAvailableMarkets().toString() + "'," +
                             "'" + album.getId() + "'," +
                             "'" + album.getUri() + "'" +
-                            ")");
+                            ")";
+                    statement.execute(secuencia);
+                     */
                     String idAlbum = album.getId();
                     String json3 = accessor.get("/albums/" + idAlbum + "/tracks", Collections.emptyMap());
                     GetTrack getTrack = new Gson().fromJson(json3, GetTrack.class);
                     ArrayList<Track> tracks = getTrack.getItems();
+                    PreparedStatement preparedStatement2 = conn.prepareStatement("INSERT INTO tracks (AlbumID,Name,TrackNumber,DurationMs,AvailableMarkets,ID,Uri) " +
+                            "VALUES (?,?,?,?,?,?,?)");
+
                     for (Track track : tracks) {
-                        System.out.println(new Gson().toJson(track));
-                        statement.execute("INSERT INTO tracks (Name,TrackNumber,DurationMs,AvailableMarkets,ID,Uri) VALUES ('" +
-                                track.getName() + "'," +
+                        resultSet = statement.executeQuery("SELECT AlbumID FROM albums WHERE ID=\"" + album.getId() + "\"");
+                        //System.out.println(new Gson().toJson(track));
+                        preparedStatement2.setInt(1,resultSet.getInt("AlbumID"));
+                        preparedStatement2.setString(2,track.getName());
+                        preparedStatement2.setInt(3,track.getTrackNumber());
+                        preparedStatement2.setInt(4,track.getDurationMs());
+                        preparedStatement2.setString(5,track.getAvailableMarkets().toString());
+                        preparedStatement2.setString(6,track.getId());
+                        preparedStatement2.setString(7,track.getUri());
+                        preparedStatement2.execute();
+                        //preparedStatement.clearParameters();
+                        /*
+                        statement.execute("INSERT INTO tracks (AlbumID,Name,TrackNumber,DurationMs,AvailableMarkets,ID,Uri) VALUES (" +
+                                resultSet.getInt("AlbumID") + "," +
+                                "\"" + track.getName() + "\"," +
                                 track.getTrackNumber() + "," +
                                 track.getDurationMs() + "," +
                                 "'" + track.getAvailableMarkets().toString() + "'," +
                                 "'" + track.getId() + "'," +
                                 "'" + track.getUri() + "'" +
                                 ")");
+                       */
                     }
+
 
                 }
             }
@@ -111,7 +145,7 @@ public class Main {
         return conn;
     }
 
-    //TO DO
+    //TODO
     //List<Artist> getArtists(...) filtering by some criteria
     //List<Album> getAlbums(artist)
     //List<Track> getTracks(artist),
