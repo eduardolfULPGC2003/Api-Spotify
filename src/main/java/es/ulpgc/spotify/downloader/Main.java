@@ -25,48 +25,17 @@ public class Main {
         String dbPath = "C:\\Users\\Eduardo\\IdeaProjects\\spotify_2\\spotify.db";
         try(Connection conn = connect(dbPath)) {
             Statement statement = conn.createStatement();
-            String columns = "ArtistID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "Name TEXT NOT NULL, " +
-                    "Followers INTEGER, " +
-                    "Genres TEXT NOT NULL, " +
-                    "Popularity INTEGER, " +
-                    "ID TEXT NOT NULL, " +
-                    "Uri TEXT";
-            Table.create("artists",columns,statement);
-            statement.execute("CREATE TABLE IF NOT EXISTS albums (" +
-                    "AlbumID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "ArtistID INTEGER NOT NULL, " +
-                    "Artists TEXT NOT NULL, " +
-                    "Name TEXT NOT NULL, " +
-                    "ReleaseDate TEXT NOT NULL, " +
-                    "TotalTracks INTEGER NOT NULL, " +
-                    "AvailableMarkets TEXT NOT NULL, " +
-                    "ID TEXT NOT NULL, " +
-                    "Uri TEXT" +
-                    ")");
-            statement.execute("CREATE TABLE IF NOT EXISTS tracks (" +
-                    "TrackID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "AlbumID INTEGER NOT NULL, " +
-                    "Artists TEXT NOT NULL, " +
-                    "Name TEXT NOT NULL, " +
-                    "TrackNumber INTEGER NOT NULL, " +
-                    "DurationMs INTEGER NOT NULL, " +
-                    "AvailableMarkets TEXT NOT NULL, " +
-                    "Explicit BOOLEAN NOT NULL, " +
-                    "ID TEXT NOT NULL, " +
-                    "Uri TEXT" +
-                    ")");
             for (String urlArtist : urlArtists) {
                 String json = accessor.get("/artists/" + urlArtist, Collections.emptyMap());
                 Artist artist = new Gson().fromJson(json, Artist.class);
-                Table.insertArtist(artist,statement);
+                Table.add(artist,conn);
                 String json2 = accessor.get("/artists/" + urlArtist + "/albums?include_groups=album", Collections.emptyMap());
                 GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
                 ArrayList<Album> albums = getAlbum.getItems();
                 for (Album album : albums) {
                     //System.out.println(new Gson().toJson(album));
                     ResultSet resultSet = statement.executeQuery("SELECT ArtistID FROM artists WHERE ID='" + artist.getId() + "'");
-                    Table.insertAlbum(album, resultSet.getInt("ArtistID"), conn);
+                    Table.add(album, resultSet.getInt("ArtistID"), conn);
                     String idAlbum = album.getId();
                     String json3 = accessor.get("/albums/" + idAlbum + "/tracks", Collections.emptyMap());
                     GetTrack getTrack = new Gson().fromJson(json3, GetTrack.class);
@@ -76,7 +45,7 @@ public class Main {
                     for (Track track : tracks) {
                         resultSet = statement.executeQuery("SELECT AlbumID FROM albums WHERE ID=\"" + album.getId() + "\"");
                         System.out.println(new Gson().toJson(track));
-                        Table.insertTrack(track, resultSet.getInt("AlbumID"),conn);
+                        Table.add(track, resultSet.getInt("AlbumID"),conn);
                     }
 
 

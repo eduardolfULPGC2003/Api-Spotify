@@ -5,19 +5,19 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Track {
-    private ArrayList<Artist> artists;
-    private ArrayList<String> available_markets;
-    private Integer disc_number;
-    private Integer duration_ms;
-    private boolean explicit;
-    private Map<String, String> external_urls;
-    private String id;
-    private boolean is_local;
-    private String name;
-    private String preview_url;
-    private Integer track_number;
-    private String type;
-    private String uri;
+    private final ArrayList<Artist> artists;
+    private final ArrayList<String> available_markets;
+    private final Integer disc_number;
+    private final Integer duration_ms;
+    private final boolean explicit;
+    private final Map<String, String> external_urls;
+    private final String id;
+    private final boolean is_local;
+    private final String name;
+    private final String preview_url;
+    private final Integer track_number;
+    private final String type;
+    private final String uri;
 
     public Track(ArrayList<Artist> artists, ArrayList<String> availableMarkets, Integer discNumber, Integer durationMs, boolean explicit, Map<String, String> external_Urls, String id, boolean isLocal, String name, String previewUrl, Integer trackNumber, String type, String uri) {
         this.artists = artists;
