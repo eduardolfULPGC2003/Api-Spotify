@@ -23,7 +23,7 @@ public class Spotify {
     }
 
     public static ArrayList<Album> getAlbum(String urlArtist2) throws Exception {
-        String json2 = accessor.get("/artists/" + urlArtist2 + "/albums?include_groups=album", Collections.emptyMap());
+        String json2 = accessor.get("/artists/" + urlArtist2 + "/albums?include_groups=album&limit=50", Collections.emptyMap());
         GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
         ArrayList<Album> albums = getAlbum.getItems();
         return albums;

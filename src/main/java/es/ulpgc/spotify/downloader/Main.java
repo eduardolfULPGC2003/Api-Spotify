@@ -19,7 +19,6 @@ public class Main {
         urlArtists.add("1JbemQ1fPt2YmSLjAFhPBv");
         urlArtists.add("6zFYqv1mOsgBRQbae3JJ9e");
         urlArtists.add("0JDkhL4rjiPNEp92jAgJnS");
-        //System.out.println(json);
         String dbPath = "C:\\Users\\Eduardo\\IdeaProjects\\spotify_2\\spotify.db";
         try(Connection conn = connect(dbPath)) {
             Statement statement = conn.createStatement();
