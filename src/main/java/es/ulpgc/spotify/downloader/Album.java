@@ -36,36 +36,21 @@ public class Album {
         this.uri = uri;
     }
 
-    public String getAlbumGroup() {
-        return album_group;
-    }
-
-    public String getAlbumType() {
-        return album_type;
-    }
-
-    public ArrayList<Artist> getArtists() {
-        return artists;
+    public String getArtists() {
+        if (artists.size() == 1) return artists.get(0).getName();
+        ArrayList<String> artistsName = new ArrayList<>();
+        for (Artist artist : artists) {
+            artistsName.add(artist.getName());
+        }
+        return artistsName.toString();
     }
 
     public ArrayList<String> getAvailableMarkets() {
         return available_markets;
     }
 
-    public Map<String, String> getExternalUrls() {
-        return external_urls;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
     public String getId() {
         return id;
-    }
-
-    public ArrayList<Image> getImages() {
-        return images;
     }
 
     public String getName() {
@@ -76,16 +61,8 @@ public class Album {
         return release_date;
     }
 
-    public String getReleaseDatePrecision() {
-        return release_date_precision;
-    }
-
     public Integer getTotalTracks() {
         return total_tracks;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getUri() {

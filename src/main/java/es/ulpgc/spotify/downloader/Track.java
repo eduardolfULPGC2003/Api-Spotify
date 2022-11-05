@@ -35,16 +35,17 @@ public class Track {
         this.uri = uri;
     }
 
-    public ArrayList<Artist> getArtists() {
-        return artists;
+    public String getArtists() {
+        if (artists.size() == 1) return artists.get(0).getName();
+        ArrayList<String> artistsName = new ArrayList<>();
+        for (Artist artist : artists) {
+            artistsName.add(artist.getName());
+        }
+        return artistsName.toString();
     }
 
     public ArrayList<String> getAvailableMarkets() {
         return available_markets;
-    }
-
-    public Integer getDiscNumber() {
-        return disc_number;
     }
 
     public Integer getDurationMs() {
@@ -63,24 +64,12 @@ public class Track {
         return id;
     }
 
-    public boolean isLocal() {
-        return is_local;
-    }
-
     public String getName() {
         return name;
     }
 
-    public String getPreviewUrl() {
-        return preview_url;
-    }
-
     public Integer getTrackNumber() {
         return track_number;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getUri() {

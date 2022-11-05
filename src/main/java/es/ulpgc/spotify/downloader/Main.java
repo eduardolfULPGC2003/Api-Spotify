@@ -13,11 +13,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ArrayList<String> urlArtists = new ArrayList<>();
-        //urlArtists.add("3oZa8Xs6IjlIUGLAhVyK4G");
-        urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
+        //urlArtists.add("2IqcwWZoG2iCPE9CkHMO8f");
+        //urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
         //urlArtists.add("4LbuSjHhhAddvN44qXpRJo");
         //urlArtists.add("5MmVJVhhYKQ86izuGHzJYA");
-        //urlArtists.add("47BNWfpngeFHYvBlPPyraM");
+        urlArtists.add("47BNWfpngeFHYvBlPPyraM");
         //urlArtists.add("6zFYqv1mOsgBRQbae3JJ9e");
         //urlArtists.add("7H55rcKCfwqkyDFH9wpKM6");
         SpotifyAccessor accessor = new SpotifyAccessor();
@@ -36,6 +36,7 @@ public class Main {
             statement.execute("CREATE TABLE IF NOT EXISTS albums (" +
                     "AlbumID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "ArtistID INTEGER NOT NULL, " +
+                    "Artists TEXT NOT NULL, " +
                     "Name TEXT NOT NULL, " +
                     "ReleaseDate TEXT NOT NULL, " +
                     "TotalTracks INTEGER NOT NULL, " +
@@ -46,10 +47,12 @@ public class Main {
             statement.execute("CREATE TABLE IF NOT EXISTS tracks (" +
                     "TrackID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "AlbumID INTEGER NOT NULL, " +
+                    "Artists TEXT NOT NULL, " +
                     "Name TEXT NOT NULL, " +
                     "TrackNumber INTEGER NOT NULL, " +
                     "DurationMs INTEGER NOT NULL, " +
                     "AvailableMarkets TEXT NOT NULL, " +
+                    "Explicit BOOLEAN NOT NULL, " +
                     "ID TEXT NOT NULL, " +
                     "Uri TEXT" +
                     ")");
@@ -61,7 +64,7 @@ public class Main {
                 GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
                 ArrayList<Album> albums = getAlbum.getItems();
                 for (Album album : albums) {
-                    System.out.println(new Gson().toJson(album));
+                    //System.out.println(new Gson().toJson(album));
                     ResultSet resultSet = statement.executeQuery("SELECT ArtistID FROM artists WHERE ID='" + artist.getId() + "'");
                     Table.insertAlbum(album, resultSet.getInt("ArtistID"), conn);
                     String idAlbum = album.getId();
