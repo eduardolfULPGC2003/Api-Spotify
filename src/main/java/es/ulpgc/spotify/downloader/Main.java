@@ -1,7 +1,6 @@
 package es.ulpgc.spotify.downloader;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,42 +12,32 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ArrayList<String> urlArtists = new ArrayList<>();
-        //urlArtists.add("2IqcwWZoG2iCPE9CkHMO8f");
-        //urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
-        //urlArtists.add("4LbuSjHhhAddvN44qXpRJo");
-        //urlArtists.add("5MmVJVhhYKQ86izuGHzJYA");
-        urlArtists.add("47BNWfpngeFHYvBlPPyraM");
-        //urlArtists.add("6zFYqv1mOsgBRQbae3JJ9e");
-        //urlArtists.add("7H55rcKCfwqkyDFH9wpKM6");
-        SpotifyAccessor accessor = new SpotifyAccessor();
+        urlArtists.add("2IqcwWZoG2iCPE9CkHMO8f");
+        urlArtists.add("7EK1bQADBoqbYXnT4Cqv9w");
+        urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
+        urlArtists.add("5MmVJVhhYKQ86izuGHzJYA");
+        urlArtists.add("1JbemQ1fPt2YmSLjAFhPBv");
+        urlArtists.add("6zFYqv1mOsgBRQbae3JJ9e");
+        urlArtists.add("0JDkhL4rjiPNEp92jAgJnS");
         //System.out.println(json);
         String dbPath = "C:\\Users\\Eduardo\\IdeaProjects\\spotify_2\\spotify.db";
         try(Connection conn = connect(dbPath)) {
             Statement statement = conn.createStatement();
             for (String urlArtist : urlArtists) {
-                String json = accessor.get("/artists/" + urlArtist, Collections.emptyMap());
-                Artist artist = new Gson().fromJson(json, Artist.class);
-                Table.add(artist,conn);
-                String json2 = accessor.get("/artists/" + urlArtist + "/albums?include_groups=album", Collections.emptyMap());
-                GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
-                ArrayList<Album> albums = getAlbum.getItems();
+                Artist artist = Spotify.getArtist(urlArtist);
+                DataBase.add(artist,conn);
+                ArrayList<Album> albums = Spotify.getAlbum(urlArtist);
                 for (Album album : albums) {
                     //System.out.println(new Gson().toJson(album));
                     ResultSet resultSet = statement.executeQuery("SELECT ArtistID FROM artists WHERE ID='" + artist.getId() + "'");
-                    Table.add(album, resultSet.getInt("ArtistID"), conn);
+                    DataBase.add(album, resultSet.getInt("ArtistID"), conn);
                     String idAlbum = album.getId();
-                    String json3 = accessor.get("/albums/" + idAlbum + "/tracks", Collections.emptyMap());
-                    GetTrack getTrack = new Gson().fromJson(json3, GetTrack.class);
-                    ArrayList<Track> tracks = getTrack.getItems();
-                    System.out.println("Hello world");
-
+                    ArrayList<Track> tracks = Spotify.getTrack(idAlbum);
                     for (Track track : tracks) {
                         resultSet = statement.executeQuery("SELECT AlbumID FROM albums WHERE ID=\"" + album.getId() + "\"");
                         System.out.println(new Gson().toJson(track));
-                        Table.add(track, resultSet.getInt("AlbumID"),conn);
+                        DataBase.add(track, resultSet.getInt("AlbumID"),conn);
                     }
-
-
                 }
             }
         } catch (SQLException e) {

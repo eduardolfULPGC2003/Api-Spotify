@@ -1,14 +1,13 @@
 package es.ulpgc.spotify.downloader;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.sql.SQLException;
 
-public class Table {
+public class DataBase {
     private static boolean ArtistsTable = false;
     private static boolean AlbumsTable = false;
     private static boolean TracksTable = false;
-    public static void create(String name, String columns, Statement statement) throws SQLException {
+    private static void create(String name, String columns, Statement statement) throws SQLException {
         statement.execute("CREATE TABLE " + name + "(" + columns + ")");
     }
 
@@ -22,7 +21,7 @@ public class Table {
                     "Popularity INTEGER, " +
                     "ID TEXT NOT NULL, " +
                     "Uri TEXT";
-            Table.create("artists",columns,statement);
+            DataBase.create("artists",columns,statement);
             ArtistsTable = true;
         }
         statement.execute("INSERT INTO artists (Name,Followers,Genres,Popularity,ID,Uri) VALUES ('" +
@@ -47,7 +46,7 @@ public class Table {
                     "AvailableMarkets TEXT NOT NULL, " +
                     "ID TEXT NOT NULL, " +
                     "Uri TEXT";
-            Table.create("albums",columns,statement);
+            DataBase.create("albums",columns,statement);
             AlbumsTable = true;
         }
         PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO albums (ArtistID,Artists,Name,ReleaseDate,TotalTracks,AvailableMarkets,ID,Uri) " +
@@ -77,7 +76,7 @@ public class Table {
                     "Explicit BOOLEAN NOT NULL, " +
                     "ID TEXT NOT NULL, " +
                     "Uri TEXT";
-            Table.create("tracks",columns,statement);
+            DataBase.create("tracks",columns,statement);
             TracksTable = true;
         }
         PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO tracks (AlbumID,Artists,Name,TrackNumber,DurationMs,AvailableMarkets,Explicit,ID,Uri) " +
