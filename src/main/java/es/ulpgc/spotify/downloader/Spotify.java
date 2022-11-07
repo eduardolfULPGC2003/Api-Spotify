@@ -18,21 +18,18 @@ public class Spotify {
 
     public static Artist getArtist(String urlArtist) throws Exception {
         String json = accessor.get("/artists/" + urlArtist, Collections.emptyMap());
-        Artist artist = new Gson().fromJson(json, Artist.class);
-        return artist;
+        return new Gson().fromJson(json, Artist.class);
     }
 
     public static ArrayList<Album> getAlbum(String urlArtist2) throws Exception {
         String json2 = accessor.get("/artists/" + urlArtist2 + "/albums?include_groups=album&limit=50", Collections.emptyMap());
         GetAlbum getAlbum = new Gson().fromJson(json2, GetAlbum.class);
-        ArrayList<Album> albums = getAlbum.getItems();
-        return albums;
+        return getAlbum.getItems();
     }
 
     public static ArrayList<Track> getTrack(String idAlbum) throws Exception {
         String json3 = accessor.get("/albums/" + idAlbum + "/tracks?limit=50", Collections.emptyMap());
         GetTrack getTrack = new Gson().fromJson(json3, GetTrack.class);
-        ArrayList<Track> tracks = getTrack.getItems();
-        return tracks;
+        return getTrack.getItems();
     }
 }

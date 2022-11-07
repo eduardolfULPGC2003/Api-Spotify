@@ -4,9 +4,6 @@ import com.google.gson.Gson;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import static javax.management.remote.JMXConnectorFactory.connect;
 
 public class Main {
 
@@ -44,7 +41,7 @@ public class Main {
         }
     }
     public static Connection connect(String dbPath) {
-        Connection conn = null;
+        Connection conn;
         try {
             String url = "jdbc:sqlite:" + dbPath;
             conn = DriverManager.getConnection(url);
