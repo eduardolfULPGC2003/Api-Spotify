@@ -1,13 +1,12 @@
 package es.ulpgc.spotify.downloader;
 
-import com.google.gson.Gson;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        DataBase db = new SQL();
         ArrayList<String> urlArtists = new ArrayList<>();
         urlArtists.add("2IqcwWZoG2iCPE9CkHMO8f");
         urlArtists.add("7EK1bQADBoqbYXnT4Cqv9w");
@@ -21,18 +20,17 @@ public class Main {
             Statement statement = conn.createStatement();
             for (String urlArtist : urlArtists) {
                 Artist artist = Spotify.getArtist(urlArtist);
-                DataBase.add(artist,conn);
+                db.add(artist,conn);
                 ArrayList<Album> albums = Spotify.getAlbum(urlArtist);
                 for (Album album : albums) {
                     //System.out.println(new Gson().toJson(album));
                     ResultSet resultSet = statement.executeQuery("SELECT ArtistID FROM artists WHERE ID='" + artist.getId() + "'");
-                    DataBase.add(album, resultSet.getInt("ArtistID"), conn);
+                    db.add(album, resultSet.getInt("ArtistID"), conn);
                     String idAlbum = album.getId();
                     ArrayList<Track> tracks = Spotify.getTrack(idAlbum);
                     for (Track track : tracks) {
                         resultSet = statement.executeQuery("SELECT AlbumID FROM albums WHERE ID=\"" + album.getId() + "\"");
-                        System.out.println(new Gson().toJson(track));
-                        DataBase.add(track, resultSet.getInt("AlbumID"),conn);
+                        db.add(track, resultSet.getInt("AlbumID"),conn);
                     }
                 }
             }
