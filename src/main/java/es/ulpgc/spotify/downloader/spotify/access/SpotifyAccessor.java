@@ -1,4 +1,4 @@
-package es.ulpgc.spotify.downloader;
+package es.ulpgc.spotify.downloader.spotify.access;
 
 
 import java.net.URI;

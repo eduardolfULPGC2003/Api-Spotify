@@ -1,11 +1,15 @@
-package es.ulpgc.spotify.downloader;
+package es.ulpgc.spotify.downloader.sql;
 
 import com.google.gson.Gson;
+import es.ulpgc.spotify.downloader.DataBase;
+import es.ulpgc.spotify.downloader.spotify.Artist;
+import es.ulpgc.spotify.downloader.spotify.Album;
+import es.ulpgc.spotify.downloader.spotify.Track;
 
 import java.sql.*;
 import java.sql.SQLException;
 
-public class SQL implements DataBase{
+public class SQL implements DataBase {
     private static boolean ArtistsTable = false;
     private static boolean AlbumsTable = false;
     private static boolean TracksTable = false;
@@ -37,7 +41,7 @@ public class SQL implements DataBase{
                 ")");
     }
 
-    public void add(Album album,Integer ArtistID,Connection conn) throws SQLException {
+    public void add(Album album, Integer ArtistID, Connection conn) throws SQLException {
         if (!AlbumsTable){
             Statement statement = conn.createStatement();
             String fields = "AlbumID INTEGER PRIMARY KEY AUTOINCREMENT, " +

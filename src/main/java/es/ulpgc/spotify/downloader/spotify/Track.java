@@ -1,7 +1,8 @@
-package es.ulpgc.spotify.downloader;
+package es.ulpgc.spotify.downloader.spotify;
+
+import es.ulpgc.spotify.downloader.spotify.Artist;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 public class Track {

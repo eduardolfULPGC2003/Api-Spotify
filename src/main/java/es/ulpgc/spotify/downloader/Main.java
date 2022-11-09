@@ -1,13 +1,21 @@
 package es.ulpgc.spotify.downloader;
 
+import es.ulpgc.spotify.downloader.spotify.Artist;
+import es.ulpgc.spotify.downloader.spotify.Album;
+import es.ulpgc.spotify.downloader.spotify.Spotify;
+import es.ulpgc.spotify.downloader.spotify.Track;
+import es.ulpgc.spotify.downloader.sql.SQL;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         DataBase db = new SQL();
-        ArrayList<String> urlArtists = new ArrayList<>();
+        MusicStreaming sp = new Spotify();
+        List<String> urlArtists = new ArrayList<>();
         urlArtists.add("2IqcwWZoG2iCPE9CkHMO8f");
         urlArtists.add("7EK1bQADBoqbYXnT4Cqv9w");
         urlArtists.add("6qGkLCMQkNGOJ079iEcC5k");
@@ -19,15 +27,14 @@ public class Main {
         try(Connection conn = connect(dbPath)) {
             Statement statement = conn.createStatement();
             for (String urlArtist : urlArtists) {
-                Artist artist = Spotify.getArtist(urlArtist);
+                Artist artist = sp.getArtist(urlArtist);
                 db.add(artist,conn);
-                ArrayList<Album> albums = Spotify.getAlbum(urlArtist);
+                List<Album> albums = sp.getAlbum(urlArtist);
                 for (Album album : albums) {
-                    //System.out.println(new Gson().toJson(album));
                     ResultSet resultSet = statement.executeQuery("SELECT ArtistID FROM artists WHERE ID='" + artist.getId() + "'");
                     db.add(album, resultSet.getInt("ArtistID"), conn);
                     String idAlbum = album.getId();
-                    ArrayList<Track> tracks = Spotify.getTrack(idAlbum);
+                    List<Track> tracks = sp.getTrack(idAlbum);
                     for (Track track : tracks) {
                         resultSet = statement.executeQuery("SELECT AlbumID FROM albums WHERE ID=\"" + album.getId() + "\"");
                         db.add(track, resultSet.getInt("AlbumID"),conn);
@@ -53,43 +60,5 @@ public class Main {
     //TODO
     //List<Artist> getArtists(...) filtering by some criteria
     //List<Album> getAlbums(artist)
-    //List<Track> getTracks(artist),
-
-    //String prueba = "https://open.spotify.com/album/0TYKKzAVX7gjUYtovNTFNE";
-    //String busqueda =  "/albums/" + prueba.substring(prueba.indexOf("album/")+6) + "/tracks";
-    //String json = accessor.get(busqueda, Collections.emptyMap());
-    //System.out.println(json);
-
-    //Se consigue también con el id del album
-
-    //GetAlbum prueba = new Gson().fromJson(json, GetAlbum.class);
-    //ArrayList<Album> albums = prueba.getItems();
-    //for (Album album : albums) {
-    //System.out.println(album.getId());
-    //}
-
-    /*
-        statement.execute("INSERT INTO tracks (AlbumID,Name,TrackNumber,DurationMs,AvailableMarkets,ID,Uri) VALUES (" +
-            resultSet.getInt("AlbumID") + "," +
-            "\"" + track.getName() + "\"," +
-            track.getTrackNumber() + "," +
-            track.getDurationMs() + "," +
-            "'" + track.getAvailableMarkets().toString() + "'," +
-            "'" + track.getId() + "'," +
-            "'" + track.getUri() + "'" +
-        ")");
-   */
-
-    /*
-        String secuencia = "INSERT INTO albums (ArtistID,Name,ReleaseDate,TotalTracks,AvailableMarkets,ID,Uri) VALUES ("+
-                resultSet.getInt("ArtistID") + "," +
-                "\"" + album.getName() + "\"," +
-                "'" + album.getReleaseDate() + "'," +
-                album.getTotalTracks() + "," +
-                "'" + album.getAvailableMarkets().toString() + "'," +
-                "'" + album.getId() + "'," +
-                "'" + album.getUri() + "'" +
-                ")";
-        statement.execute(secuencia);
-     */
+    //List<Track> getTracks(artist)
 }
